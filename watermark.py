@@ -49,6 +49,9 @@ class VideoWatermarker:
 
         watermark_data = self._prepare_watermark_data(total_frames)
         processed_frames = 0
+        
+        start_time = time.time()
+        last_report_time = start_time
 
         while True:
             ret, frame = cap.read()
@@ -59,8 +62,11 @@ class VideoWatermarker:
             out.write(watermarked_frame)
             processed_frames += 1
 
-            if processed_frames % 30 == 0:
-                print(f"  Processed: {processed_frames}/{total_frames}")
+            current_time = time.time()
+            if current_time - last_report_time >= 30:
+                elapsed = current_time - start_time
+                print(f"  Progress: {processed_frames}/{total_frames} frames ({elapsed:.0f}s elapsed)")
+                last_report_time = current_time
 
         cap.release()
         out.release()

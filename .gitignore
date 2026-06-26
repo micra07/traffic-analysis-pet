@@ -1,3 +1,5 @@
+materials/
+materials_with_watermark/
 venv/
 .venv/
 env/
